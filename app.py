@@ -11,6 +11,7 @@ KAGGLE = 'https://www.kaggle.com/datasets/edwertimudo/ventas-cadena-de-productos
 COL_CAT = 'Categoria'       # columna de categorías
 COL_NUM = 'Venta_Total'     # columna numérica principal
 COL_NUM2 = 'Cantidad'       # segunda columna numérica
+COLORES = {'Electrónica': '#1f77b4', 'Hogar': '#2ca02c', 'Ropa': '#ff7f0e'}
 # =========================================================================
 
 st.set_page_config(page_title=TITULO, page_icon='📊', layout='wide')
@@ -64,25 +65,29 @@ izq, der = st.columns(2)
 conteo = df_top[COL_CAT].value_counts().reset_index()
 conteo.columns = [COL_CAT, 'cantidad']
 fig1 = px.bar(conteo, x='cantidad', y=COL_CAT, orientation='h',
+              color=COL_CAT, color_discrete_map=COLORES,
               title=f'Registros por {COL_CAT} (10 más frecuentes)',
               labels={'cantidad': 'Cantidad de registros'})
-fig1.update_layout(yaxis={'categoryorder': 'total ascending'})
+fig1.update_layout(yaxis={'categoryorder': 'total ascending'}, showlegend=False)
 izq.plotly_chart(fig1)
 
 fig2 = px.histogram(df_f, x=COL_NUM, nbins=30,
+                    color_discrete_sequence=['#6a3d9a'],
                     title=f'Distribución de {COL_NUM}')
 fig2.update_layout(yaxis_title='Cantidad de registros')
 der.plotly_chart(fig2)
 
 izq2, der2 = st.columns(2)
-
 fig3 = px.box(df_top, x=COL_CAT, y=COL_NUM,
+              color=COL_CAT, color_discrete_map=COLORES,
               title=f'{COL_NUM} según {COL_CAT}')
+fig3.update_layout(showlegend=False)
 izq2.plotly_chart(fig3)
 
 muestra = df_f.sample(min(len(df_f), 3000), random_state=1)
 r = df_f[COL_NUM].corr(df_f[COL_NUM2])
 fig4 = px.scatter(muestra, x=COL_NUM2, y=COL_NUM, opacity=0.5,
+                  color=COL_CAT, color_discrete_map=COLORES,
                   title=f'Relación entre {COL_NUM2} y {COL_NUM} (r = {r:.2f})')
 der2.plotly_chart(fig4)
 
