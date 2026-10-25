@@ -86,7 +86,7 @@ izq2.plotly_chart(fig3)
 
 muestra = df_f.sample(min(len(df_f), 3000), random_state=1)
 r = df_f[COL_NUM].corr(df_f[COL_NUM2])
-fig4 = px.scatter(muestra, x=COL_NUM2, y=COL_NUM, opacity=0.5,
+fig4 = px.scatter(muestra, x=COL_NUM2, y=COL_NUM, opacity=0.3,
                   color=COL_CAT, color_discrete_map=COLORES,
                   title=f'Relación entre {COL_NUM2} y {COL_NUM} (r = {r:.2f})')
 der2.plotly_chart(fig4)
